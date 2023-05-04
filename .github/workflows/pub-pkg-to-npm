@@ -1,1 +1,26 @@
 
+name: "🚀 Publish package to npm"
+
+on:
+    release:
+        types: [published]
+
+jobs:
+    release:
+        name: 🚀 release npm
+        runs-on: ubuntu-latest
+        steps:
+            - name: 📚 checkout
+              uses: actions/checkout@v2.1.1
+              
+            - name: 🟢 node
+              uses: actions/setup-node@v1.4.2
+              with:
+                  node-version: 18.x
+                  registry-url: https://registry.npmjs.org
+                  
+            - name: 🚀 publish package
+              run: npm publish
+              working-directory: ./
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_PACKAGES_DOWNLOAD_AUTH_TOKEN}}
